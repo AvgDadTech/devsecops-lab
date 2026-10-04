@@ -1,4 +1,5 @@
 from flask import Flask
+FAKE_API_KEY = "AKIAIOSFODNN7EXAMPLE"
 
 app = Flask(__name__)
 
