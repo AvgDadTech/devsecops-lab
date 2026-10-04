@@ -36,7 +36,7 @@ jobs:
         run: pip install semgrep
 
       - name: Run SAST with Semgrep
-        run: semgrep scan --config p/python --error 01-first-container    
+        run: semgrep scan --config p/python --error .   
 
       - name: Install dependencies
         run: pip install -r requirements.txt
