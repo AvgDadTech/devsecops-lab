@@ -28,5 +28,11 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
+      - name: Install security tools
+        run: pip install pip-audit
+
+      - name: Scan Python dependencies
+        run: pip-audit -r requirements.txt
+
       - name: Run tests
         run: pytest
