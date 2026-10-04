@@ -1,0 +1,7 @@
+[extend]
+useDefault = true
+
+[[rules]]
+id = "devsecops-test-secret"
+description = "Controlled secret used to validate the DevSecOps lab"
+regex = '''DEVSECOPS_TEST_SECRET_[A-Za-z0-9]{16,}'''

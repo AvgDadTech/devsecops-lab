@@ -1,5 +1,5 @@
 from flask import Flask
-FAKE_GITHUB_TOKEN = "ghp_ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghij1234"
+LAB_TEST_SECRET = "ghp_ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghi1234"
 
 app = Flask(__name__)
 
