@@ -6,7 +6,7 @@ app = Flask(__name__)
 def home():
     return {
         "message": "Hello from Cody's DevSecOps lab!",
-        "status": "healthy"
+        "status": "healthy",
         "version": "2.0"
     }
 
