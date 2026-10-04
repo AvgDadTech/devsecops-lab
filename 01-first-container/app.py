@@ -1,5 +1,4 @@
 from flask import Flask
-LAB_TEST_SECRET = "ghp_ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghi1234"
 
 app = Flask(__name__)
 
