@@ -52,3 +52,13 @@ jobs:
 
       - name: Build Docker image
         run: docker build -t cody-first-app:ci .
+
+      - name: Scan Docker image with Trivy
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: cody-first-app:ci
+          format: table
+          exit-code: '1'
+          ignore-unfixed: true
+          vuln-type: 'os,library'
+          severity: 'CRITICAL,HIGH'
