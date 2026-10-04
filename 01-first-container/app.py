@@ -1,5 +1,5 @@
 from flask import Flask
-FAKE_API_KEY = "AKIAIOSFODNN7EXAMPLE"
+FAKE_GITHUB_TOKEN = "ghp_ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghij1234"
 
 app = Flask(__name__)
 
