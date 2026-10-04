@@ -31,6 +31,12 @@ jobs:
         uses: actions/setup-python@v7
         with:
           python-version: "3.12"
+          
+      - name: Install Semgrep
+        run: pip install semgrep
+
+      - name: Run SAST with Semgrep
+        run: semgrep scan --config p/python --error 01-first-container    
 
       - name: Install dependencies
         run: pip install -r requirements.txt
