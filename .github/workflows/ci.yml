@@ -15,6 +15,7 @@ jobs:
     permissions:
       contents: read
       packages: write
+      id-token: write
 
     defaults:
       run:
@@ -75,3 +76,17 @@ jobs:
 
       - name: Push Docker image
         run: docker push ghcr.io/avgdadtech/devsecops-lab:${{ github.sha }}
+
+      - name: Log in to Azure with OIDC
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Deploy approved image to Azure Container Apps
+        run: |
+          az containerapp update \
+            --name ca-first-app \
+            --resource-group rg-devsecops-lab \
+            --image ghcr.io/avgdadtech/devsecops-lab:${{ github.sha }}
