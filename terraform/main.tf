@@ -117,3 +117,19 @@ resource "azurerm_container_app" "first_app" {
     ]
   }
 }
+resource "azurerm_application_insights" "devsecops_lab" {
+  name                = "ai-devsecops-lab"
+  location            = azurerm_resource_group.devsecops_lab.location
+  resource_group_name = azurerm_resource_group.devsecops_lab.name
+  application_type    = "web"
+
+  workspace_id        = azurerm_log_analytics_workspace.devsecops_lab.id
+  sampling_percentage = 0
+
+  tags = {
+    Project     = "DevSecOps-Lab"
+    Environment = "Lab"
+    ManagedBy   = "Terraform"
+    Purpose     = "Learning"
+  }
+}
