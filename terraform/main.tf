@@ -133,3 +133,35 @@ resource "azurerm_application_insights" "devsecops_lab" {
     Purpose     = "Learning"
   }
 }
+resource "azurerm_application_insights_standard_web_test" "first_app_health" {
+  name                    = "ca-first-app-health-ai-devsecops-lab"
+  resource_group_name     = azurerm_resource_group.devsecops_lab.name
+  location                = azurerm_resource_group.devsecops_lab.location
+  application_insights_id = azurerm_application_insights.devsecops_lab.id
+
+  geo_locations = [
+    "us-va-ash-azr",
+    "us-il-ch1-azr",
+    "us-tx-sn1-azr",
+    "us-fl-mia-edge",
+    "us-ca-sjc-azr"
+  ]
+
+  frequency     = 300
+  timeout       = 30
+  enabled       = true
+  retry_enabled = true
+
+  request {
+    url                              = "https://ca-first-app.prouddesert-8684aaa4.centralus.azurecontainerapps.io/health"
+    http_verb                        = "GET"
+    follow_redirects_enabled         = false
+    parse_dependent_requests_enabled = false
+  }
+
+  validation_rules {
+    expected_status_code        = 200
+    ssl_check_enabled           = true
+    ssl_cert_remaining_lifetime = 7
+  }
+}
