@@ -178,3 +178,39 @@ resource "azurerm_monitor_action_group" "devsecops_lab" {
     use_common_alert_schema = false
   }
 }
+# Alert when our application fails availability checks
+resource "azurerm_monitor_metric_alert" "first_app_health" {
+  name                = "ca-first-app-health-ai-devsecops-lab"
+  resource_group_name = azurerm_resource_group.devsecops_lab.name
+
+  description   = "Automatically created alert rule for availability test \"ca-first-app-health-ai-devsecops-lab\""
+  auto_mitigate = false
+
+  scopes = [
+    azurerm_application_insights_standard_web_test.first_app_health.id,
+    azurerm_application_insights.devsecops_lab.id
+  ]
+
+  severity    = 1
+  enabled     = true
+  frequency   = "PT1M"
+  window_size = "PT5M"
+
+  application_insights_web_test_location_availability_criteria {
+    web_test_id           = azurerm_application_insights_standard_web_test.first_app_health.id
+    component_id          = azurerm_application_insights.devsecops_lab.id
+    failed_location_count = 2
+  }
+
+  action {
+    action_group_id = azurerm_monitor_action_group.devsecops_lab.id
+  }
+  lifecycle {
+    ignore_changes = [
+      scopes,
+      tags,
+      action,
+      application_insights_web_test_location_availability_criteria
+    ]
+  }
+}
