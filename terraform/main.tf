@@ -214,3 +214,29 @@ resource "azurerm_monitor_metric_alert" "first_app_health" {
     ]
   }
 }
+# Monitor unexpected Azure Container App restarts
+resource "azurerm_monitor_metric_alert" "container_restarts" {
+  name                = "Total Restarts"
+  resource_group_name = azurerm_resource_group.devsecops_lab.name
+
+  scopes = [
+    azurerm_container_app.first_app.id
+  ]
+
+  severity      = 0
+  enabled       = true
+  auto_mitigate = true
+  frequency     = "PT5M"
+  window_size   = "PT5M"
+
+  target_resource_type     = "Microsoft.App/containerApps"
+  target_resource_location = "centralus"
+
+  criteria {
+    metric_namespace = "Microsoft.App/containerApps"
+    metric_name      = "RestartCount"
+    aggregation      = "Total"
+    operator         = "GreaterThan"
+    threshold        = 0
+  }
+}
