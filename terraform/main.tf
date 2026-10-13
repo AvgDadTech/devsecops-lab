@@ -165,3 +165,16 @@ resource "azurerm_application_insights_standard_web_test" "first_app_health" {
     ssl_cert_remaining_lifetime = 7
   }
 }
+# Sends notifications when Azure Monitor alerts fire.
+resource "azurerm_monitor_action_group" "devsecops_lab" {
+  name                = "ag-devsecops-lab"
+  resource_group_name = azurerm_resource_group.devsecops_lab.name
+  short_name          = "DevSecOpsLab"
+  enabled             = true
+
+  email_receiver {
+    name                    = "Email-Cody_-EmailAction-"
+    email_address           = "cody@foundrylabsllc.com"
+    use_common_alert_schema = false
+  }
+}
