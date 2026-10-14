@@ -69,15 +69,19 @@ jobs:
           severity: 'CRITICAL,HIGH'
 
       - name: Log in to GitHub Container Registry
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
 
       - name: Tag Docker image
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: docker tag cody-first-app:ci ghcr.io/avgdadtech/devsecops-lab:${{ github.sha }}
 
       - name: Push Docker image
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: docker push ghcr.io/avgdadtech/devsecops-lab:${{ github.sha }}
 
       - name: Log in to Azure with OIDC
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: azure/login@v2
         with:
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
@@ -85,6 +89,7 @@ jobs:
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
       - name: Deploy approved image to Azure Container Apps
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
           az containerapp update \
             --name ca-first-app \
